@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 // Asegúrate de que estas rutas a los componentes y pantallas sean correctas
-import BottomNavBar from './components/BottomNavBar.js';
-import WorklyLogo from './components/WorklyLogo.js';
-import HomeScreen from './screens/HomeScreen.js';
-import JobsScreen from './screens/JobsScreen.js';
-import CoursesScreen from './screens/CoursesScreen.js';
-import ProfileScreen from './screens/ProfileScreen.js';
+import BottomNavBar from './components/BottomNavBar';
+import WorklyLogo from './components/WorklyLogo';
+import HomeScreen from './screens/HomeScreen';
+import JobsScreen from './screens/JobsScreen';
+import CoursesScreen from './screens/CoursesScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
