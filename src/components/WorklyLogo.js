@@ -12,7 +12,7 @@ const WorklyLogo = () => {
       <img 
         src="/workly_logo.png" // RUTA: Icono simplificado (solo la W)
         alt="Workly Logo"
-        className="w-12 h-12 object-contain"
+        className="w-20 h-20 object-contain"
         onError={(e) => { 
           // Fallback por si la imagen no carga: muestra un ícono genérico
           e.target.style.display = 'none';
