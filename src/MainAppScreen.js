@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-// Asegúrate de que estas rutas a los componentes y pantallas sean correctas
 import BottomNavBar from './components/BottomNavBar';
 import WorklyLogo from './components/WorklyLogo';
+import FloatingAssistantButton from './components/FloatingAssistantButton'; // <- ASISTENTE IMPORTADO
 import HomeScreen from './screens/HomeScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
@@ -10,6 +10,11 @@ import ProfileScreen from './screens/ProfileScreen';
 const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
     
+  const handleAssistantClick = () => {
+    // Aquí podrías agregar lógica para abrir un modal de chat en MainAppScreen
+    // Por ahora, la lógica de alerta está en FloatingAssistantButton.js
+  };
+    
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
@@ -17,7 +22,6 @@ const MainAppScreen = ({ user, onLogout }) => {
       case 'jobs':
         return (<JobsScreen />); 
       case 'courses':
-        // Nota: Asume que CourseDetailScreen.js aún no existe o no se usa aquí.
         return (<CoursesScreen />); 
       case 'profile':
         return (<ProfileScreen user={user} onLogout={onLogout} />); 
@@ -36,8 +40,11 @@ const MainAppScreen = ({ user, onLogout }) => {
         {renderContent()}
       </main>
 
-      {/* Nota: BottomNavBar está en 'components' */}
       <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+      
+      {/* EL ASISTENTE FLOTANTE ESTÁ AQUÍ */}
+      <FloatingAssistantButton onAssistantClick={handleAssistantClick} />
+      
     </div>
   );
 };
