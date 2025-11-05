@@ -10,8 +10,8 @@ const WorklyLogo = () => {
         Asegúrate de que el archivo 'workly_icon.png' (solo la W) esté en public/
       */}
       <img 
-        src="/workly_icon.png" // RUTA: Icono simplificado (solo la W)
-        alt="Workly Icon"
+        src="/workly_logo.png" // RUTA: Icono simplificado (solo la W)
+        alt="Workly Logo"
         className="w-8 h-8 object-contain"
         onError={(e) => { 
           // Fallback por si la imagen no carga: muestra un ícono genérico
