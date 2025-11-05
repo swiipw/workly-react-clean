@@ -40,7 +40,7 @@ const LoginScreen = ({ onLogin }) => {
           />
           <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
           {/* ESLOGAN */}
-          <p className="text-gray-350 text-center text-lg font-medium">Conectamos talento joven con oportunidades del futuro</p>
+          <p className="text-gray-200 text-center text-lg font-medium">Conectamos talento joven con oportunidades del futuro</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
