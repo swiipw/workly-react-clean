@@ -1,5 +1,6 @@
 import React from 'react';
-import { Mail, Briefcase, Star, Clock, Heart, Edit3, Camera } from 'lucide-react';
+// IMPORTACIÓN CORREGIDA: Se agregaron 'User' y 'BookOpen'
+import { Mail, Briefcase, Star, Clock, Heart, Edit3, Camera, User, BookOpen } from 'lucide-react'; 
 
 // Datos simulados para la demostración
 const simulatedData = {
@@ -25,8 +26,11 @@ const StarRating = ({ rating }) => {
                 <Star key={`full-${i}`} className="w-5 h-5 fill-current" />
             ))}
             {hasHalfStar && (
-                // Simulamos media estrella con un degradado o un icono modificado
-                <Star key="half" className="w-5 h-5 fill-current" style={{ clipPath: 'inset(0 50% 0 0)' }} /> 
+                // Simulamos media estrella con un clip para mostrar solo la mitad
+                <div key="half" className="relative w-5 h-5 overflow-hidden">
+                    <Star className="absolute w-5 h-5 fill-current" />
+                    <div className="absolute w-1/2 h-full bg-white right-0"></div>
+                </div>
             )}
             {[...Array(emptyStars)].map((_, i) => (
                 <Star key={`empty-${i}`} className="w-5 h-5 text-gray-300" />
