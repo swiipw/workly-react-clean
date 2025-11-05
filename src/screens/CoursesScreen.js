@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, BookOpen, Clock, BarChart, CheckCircle, ArrowLeft, Layers, UserCheck, DollarSign } from 'lucide-react';
 
-// --- DATOS SIMULADOS (MOVEMOS EL ESTADO AQUÍ PARA QUE SEA ACCESIBLE) ---
+// --- DATOS INICIALES (FUERA DEL COMPONENTE PRINCIPAL) ---
 const initialCatalogData = [
   { id: 101, title: "Introducción a la IA Generativa", category: "Tecnología", duration: "10h", level: "Básico", price: "$49", description: "Aprende los conceptos clave de la Inteligencia Artificial moderna, modelos de lenguaje y aplicaciones prácticas.", instructor: "Dr. Elena Vargas", topics: ["Modelos LLM", "Prompt Engineering", "Ética de IA"], students: 350 },
   { id: 102, title: "Master en Tailwind CSS y React", category: "Programación", duration: "25h", level: "Avanzado", price: "$199", description: "Domina la construcción de interfaces rápidas y modernas usando la librería de componentes de React y Tailwind CSS.", instructor: "Ing. Marco Ríos", topics: ["Clases de Utilidad", "Responsive Design", "Hooks de React"], students: 120 },
@@ -11,7 +11,7 @@ const initialCatalogData = [
 ];
 
 const initialMyCoursesData = [
-    { id: 201, title: "Fundamentos de UX Design", category: "Diseño", progress: 65, duration: "15h", level: "Intermedio" },
+    { id: 201, title: "Fundamentos de UX Design", category: "Diseño", progress: 65, duration: "15h", level: "Intermedio", description: "Conoce el proceso completo de diseño de experiencia de usuario, desde la investigación hasta los prototipos de alta fidelidad.", instructor: "Lic. Ana Soto", topics: ["Investigación de Usuarios", "Wireframing", "Prototipado"], students: 480 },
 ];
 // -----------------------
 
@@ -22,7 +22,6 @@ const CourseCard = ({ course, onClick, isMyCourse = false }) => (
         onClick={() => onClick(course)} 
         className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition duration-300 border-l-4 border-[#F39C12] cursor-pointer"
     >
-        {/* ... (el contenido de la tarjeta CourseCard sigue igual) ... */}
          <div className="flex justify-between items-start mb-2">
              <h3 className="text-xl font-bold text-[#17202A]">{course.title}</h3>
              
@@ -63,9 +62,8 @@ const CourseCard = ({ course, onClick, isMyCourse = false }) => (
 );
 
 
-// NUEVO COMPONENTE: Formulario de Inscripción
+// Componente Formulario de Inscripción
 const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
-    // Usamos el hook useState para manejar los datos del formulario
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -73,7 +71,6 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
         country: '',
     });
     
-    // Simulación de los datos del usuario logueado (solo para pre-rellenar)
     const simulatedLoggedInUser = {
         name: "Usuario Workly",
         email: "usuario@workly.com",
@@ -81,7 +78,6 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
     };
 
     React.useEffect(() => {
-        // Pre-rellenar con datos simulados del usuario
         setFormData({
             fullName: simulatedLoggedInUser.name,
             email: simulatedLoggedInUser.email,
@@ -97,9 +93,8 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // En una app real, aquí enviarías los datos al backend
         console.log("Datos de inscripción enviados:", formData);
-        onConfirm(course); // Llama a la función que inscribe el curso
+        onConfirm(course); // Pasa el curso de vuelta al componente padre
     };
 
     const inputClasses = "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1ABC9C] focus:border-[#1ABC9C]";
@@ -111,44 +106,11 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 
             <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-xl shadow-lg">
                 
-                {/* Campos de Datos */}
-                <input 
-                    type="text" 
-                    name="fullName" 
-                    placeholder="Nombre Completo" 
-                    value={formData.fullName} 
-                    onChange={handleChange} 
-                    required
-                    className={inputClasses}
-                />
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Correo Electrónico" 
-                    value={formData.email} 
-                    onChange={handleChange} 
-                    required
-                    className={inputClasses}
-                />
-                <input 
-                    type="tel" 
-                    name="phone" 
-                    placeholder="Teléfono" 
-                    value={formData.phone} 
-                    onChange={handleChange} 
-                    className={inputClasses}
-                />
-                <input 
-                    type="text" 
-                    name="country" 
-                    placeholder="País de Residencia" 
-                    value={formData.country} 
-                    onChange={handleChange} 
-                    required
-                    className={inputClasses}
-                />
+                <input type="text" name="fullName" placeholder="Nombre Completo" value={formData.fullName} onChange={handleChange} required className={inputClasses}/>
+                <input type="email" name="email" placeholder="Correo Electrónico" value={formData.email} onChange={handleChange} required className={inputClasses}/>
+                <input type="tel" name="phone" placeholder="Teléfono" value={formData.phone} onChange={handleChange} className={inputClasses}/>
+                <input type="text" name="country" placeholder="País de Residencia" value={formData.country} onChange={handleChange} required className={inputClasses}/>
                 
-                {/* Botón de Confirmar Inscripción */}
                 <button 
                     type="submit"
                     className="w-full py-3 bg-[#1ABC9C] text-white font-bold text-lg rounded-xl shadow-lg hover:bg-[#17202A] transition mt-6"
@@ -156,7 +118,6 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
                     Confirmar Inscripción
                 </button>
                 
-                {/* Botón de Cancelar */}
                 <button 
                     type="button"
                     onClick={onCancel}
@@ -169,11 +130,15 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
     );
 };
 
+
 // Componente Vista de Detalle del Curso
-const CourseDetail = ({ course, onBack, onEnrollClick }) => {
+const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
     
-    const isEnrolled = myCoursesData.some(mc => mc.id === course.id);
+    // CORRECCIÓN: Usamos myCoursesList pasado por props
+    const isEnrolled = myCoursesList.some(mc => mc.id === course.id);
     
+    const enrolledCourse = isEnrolled ? myCoursesList.find(mc => mc.id === course.id) : null;
+
     return (
         <div className="p-4 space-y-6">
             
@@ -186,7 +151,6 @@ const CourseDetail = ({ course, onBack, onEnrollClick }) => {
                 Volver a Cursos
             </button>
             
-            {/* ... (Contenido de la ficha técnica y temas sigue igual) ... */}
             <header>
                 <span className="text-sm font-medium text-white px-3 py-1 rounded-full bg-[#F39C12]">{course.category}</span>
                 <h1 className="text-3xl font-extrabold text-[#17202A] mt-2">{course.title}</h1>
@@ -220,11 +184,11 @@ const CourseDetail = ({ course, onBack, onEnrollClick }) => {
             <div className="py-4">
                 {isEnrolled ? (
                     <button className="w-full py-4 bg-[#1ABC9C] text-white font-bold text-xl rounded-xl shadow-lg hover:bg-[#17202A] transition">
-                        Continuar Curso (1%)
+                        Continuar Curso ({enrolledCourse.progress}%)
                     </button>
                 ) : (
                     <button 
-                        onClick={onEnrollClick} // Nuevo: Llama a la función para ir al formulario
+                        onClick={onEnrollClick}
                         className="w-full py-4 bg-[#F39C12] text-white font-bold text-xl rounded-xl shadow-lg hover:bg-[#E67E22] transition"
                     >
                         Inscribirse Ahora ({course.price})
@@ -241,9 +205,9 @@ const CoursesScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeView, setActiveView] = useState('catalog');
   const [selectedCourse, setSelectedCourse] = useState(null); 
-  const [isEnrolling, setIsEnrolling] = useState(false); // Nuevo estado para el formulario
+  const [isEnrolling, setIsEnrolling] = useState(false); 
   
-  // Estados para simular los datos de la app (ya que no usamos una DB)
+  // Estados para simular los datos de la app
   const [catalogData, setCatalogData] = useState(initialCatalogData);
   const [myCoursesData, setMyCoursesData] = useState(initialMyCoursesData);
   
@@ -251,8 +215,11 @@ const CoursesScreen = () => {
   const handleEnrollmentConfirm = (course) => {
     
     // 1. Crear la nueva entrada en Mis Cursos
+    // Se busca el curso completo en el catálogo inicial (para asegurar que tenemos todos los datos, aunque no es estrictamente necesario aquí)
+    const fullCourseDetails = initialCatalogData.find(c => c.id === course.id); 
+    
     const newMyCourse = { 
-        ...course, 
+        ...fullCourseDetails, 
         progress: 1, // Inicia con 1% de progreso
         price: undefined // Quitamos el precio ya que está inscrito
     };
@@ -287,7 +254,8 @@ const CoursesScreen = () => {
         <CourseDetail 
             course={selectedCourse} 
             onBack={() => setSelectedCourse(null)} 
-            onEnrollClick={() => setIsEnrolling(true)} // Nuevo: Botón Inscribirse
+            onEnrollClick={() => setIsEnrolling(true)}
+            myCoursesList={myCoursesData} // CORRECCIÓN: Pasamos la lista de cursos inscritos
         />
       );
   }
@@ -302,7 +270,6 @@ const CoursesScreen = () => {
   
   // Función para renderizar la lista de cursos
   const renderCourseList = () => {
-      // ... (misma lógica)
       if (filteredCourses.length === 0) {
           return (
               <p className="text-gray-500 text-center p-6 bg-white rounded-xl shadow-inner">
