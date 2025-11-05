@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Mail, Lock, LogIn } from 'lucide-react'; 
 import PrimaryButton from '../components/PrimaryButton'; 
-// Ya no necesitamos WorklyLogo.js aquí si usamos la imagen
-// import WorklyLogo from '../components/WorklyLogo'; 
+// Asegúrate de que tu logo esté en public/ con este nombre.
 
 const LoginScreen = ({ onLogin }) => { 
+  // Valores iniciales para facilitar la prueba
   const [email, setEmail] = useState('nombre@workly.com'); 
   const [password, setPassword] = useState('123456'); 
   const [isLoading, setIsLoading] = useState(false);
@@ -15,11 +15,20 @@ const LoginScreen = ({ onLogin }) => {
     setError('');
     setIsLoading(true); 
     
-    // Lógica simple de demo login
+    // --- LÓGICA DE EXTRACCIÓN DEL NOMBRE ---
+    let userName = 'Usuario';
+    if (email) {
+      userName = email.substring(0, email.indexOf('@'));
+      // Capitalizar la primera letra
+      userName = userName.charAt(0).toUpperCase() + userName.slice(1);
+    }
+    // ---------------------------------------
+
     setTimeout(() => {
         setIsLoading(false);
         if (password === '123456' && email.endsWith('@workly.com')) {
-            onLogin({ name: 'Usuario Demo', email: email });
+            // Enviamos el nombre extraído a la app principal
+            onLogin({ name: userName, email: email }); 
         } else {
             setError('Credenciales incorrectas. Usa nombre@workly.com y 123456.');
         }
@@ -32,15 +41,14 @@ const LoginScreen = ({ onLogin }) => {
         
         {/* LOGO OFICIAL Y ESLOGAN */}
         <div className="flex flex-col items-center mb-10">
-          {/* RUTA: /workly_logo.png busca el archivo en la carpeta public/ */}
           <img 
-            src="/workly_logo.png" 
+            src="/workly_logo.png" // RUTA DEL LOGO EN PUBLIC/
             alt="Workly Logo" 
-            className="w-48 h-auto mb-4" // Ajusta el tamaño (w-32 es 128px)
+            className="w-40 h-auto mb-4" 
           />
           <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
-          {/* ESLOGAN */}
-          <p className="text-gray-350 text-center text-base font-medium">Conectamos talento joven con oportunidades del futuro</p>
+          {/* ESLOGAN CON TAMAÑO CORREGIDO (text-base) */}
+          <p className="text-gray-350 text-center text-base font-medium">Conectamos talento joven con oportunidades del futuro</p> 
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
