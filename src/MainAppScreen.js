@@ -7,7 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import ChatScreen from './screens/ChatScreen'; // <- NUEVA IMPORTACIÓN
+import ChatScreen from './screens/ChatScreen'; // <- IMPORTACIÓN CORRECTA
 
 const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
@@ -25,10 +25,8 @@ const MainAppScreen = ({ user, onLogout }) => {
         return (<JobsScreen />); 
       case 'courses':
         return (<CoursesScreen />); 
-      // --- NUEVO CASO DE CHAT ---
-      case 'chat':
+      case 'chat': // <- CASO DE CHAT CORRECTO
         return (<ChatScreen />);
-      // --------------------------
       case 'profile':
         return (<ProfileScreen user={user} onLogout={onLogout} />); 
       default:
