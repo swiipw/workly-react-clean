@@ -44,7 +44,7 @@ const LoginScreen = ({ onLogin }) => {
           <img 
             src="/workly_logo.png" // RUTA DEL LOGO EN PUBLIC/
             alt="Workly Logo" 
-            className="w-40 h-auto mb-4" 
+            className="w-32 h-auto mb-4" 
           />
           <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
           {/* ESLOGAN CON TAMAÑO CORREGIDO (text-base) */}
