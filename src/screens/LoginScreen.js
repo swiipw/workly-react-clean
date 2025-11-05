@@ -36,7 +36,7 @@ const LoginScreen = ({ onLogin }) => {
           <img 
             src="/workly_logo.png" 
             alt="Workly Logo" 
-            className="w-32 h-auto mb-4" // Ajusta el tamaño (w-32 es 128px)
+            className="w-48 h-auto mb-4" // Ajusta el tamaño (w-32 es 128px)
           />
           <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
           {/* ESLOGAN */}
