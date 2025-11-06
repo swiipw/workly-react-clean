@@ -25,12 +25,12 @@ const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 
 
 const MainAppScreen = () => {
-  // Inicialización CLAVE para desarrollo/prueba: 
-  // Si quieres que inicie en el login: useState(false)
-  // Si quieres que inicie logueado: useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(true); 
-  const [currentUser, setCurrentUser] = useState(initialUser);
-  const [activeTab, setActiveTab] = useState('home'); 
+  // Configuración de estado inicial para ver el LOGIN. Cambia a true para saltarlo.
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [currentUser, setCurrentUser] = useState(null); // Debe ser null para forzar login
+  
+  // CLAVE: Iniciamos en 'jobs' o 'home'. Si 'home' falla, 'jobs' debería funcionar.
+  const [activeTab, setActiveTab] = useState('jobs'); 
   
   const [notification, setNotification] = useState({ 
     isVisible: false, 
@@ -40,14 +40,14 @@ const MainAppScreen = () => {
   const handleLogin = (name, email) => {
     setCurrentUser({ name, email });
     setIsLoggedIn(true);
-    // Asegura que al loguearse, vaya a la pestaña 'home'
-    setActiveTab('home'); 
+    // CLAVE: Asegura que al loguearse, vaya a una pestaña funcional.
+    setActiveTab('jobs'); 
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
     setIsLoggedIn(false);
-    setActiveTab('home'); 
+    setActiveTab('jobs'); 
   };
 
   const showNotification = (message) => {
@@ -61,13 +61,8 @@ const MainAppScreen = () => {
 
   // Función para renderizar el contenido de la pestaña
   const renderContent = () => {
-    // Si activeTab es 'home' y currentUser es null, esto podría causar problemas
-    if (!isLoggedIn || !currentUser) {
-        // Esto no debería pasar si renderContent solo se llama cuando isLoggedIn es true, 
-        // pero es una buena práctica de seguridad.
-        return <HomeScreen />; // O un componente de carga/error seguro
-    }
     
+    // Si activeTab es 'home', sigue usando HomeScreen.
     switch (activeTab) {
       case 'home':
         return <HomeScreen />; 
@@ -80,7 +75,8 @@ const MainAppScreen = () => {
       case 'profile':
         return <ProfileScreen user={currentUser} onLogout={handleLogout} />;
       default:
-        return <HomeScreen />;
+        // Si hay un error, por seguridad volvemos a JobsScreen
+        return <JobsScreen />;
     }
   };
 
@@ -125,7 +121,7 @@ const MainAppScreen = () => {
                     <span className="text-xs">Inicio</span>
                 </button>
                 
-                {/* 2. Botón Empleos */}
+                {/* 2. Botón Empleos (Ahora el predeterminado después del Login) */}
                 <button
                     onClick={() => setActiveTab('jobs')}
                     className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'jobs' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
