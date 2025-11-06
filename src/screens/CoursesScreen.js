@@ -64,6 +64,7 @@ const CourseCard = ({ course, onClick, isMyCourse = false }) => (
 
 // Componente Formulario de Inscripción
 const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
+    // Inicialización de estado vacío por defecto
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -71,20 +72,8 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
         country: '',
     });
     
-    const simulatedLoggedInUser = {
-        name: "Usuario Workly",
-        email: "usuario@workly.com",
-        phone: "555-1234",
-    };
-
-    React.useEffect(() => {
-        setFormData({
-            fullName: simulatedLoggedInUser.name,
-            email: simulatedLoggedInUser.email,
-            phone: simulatedLoggedInUser.phone,
-            country: '',
-        });
-    }, []);
+    // --- LÓGICA DE AUTO-RELLENO ELIMINADA ---
+    // El formulario empieza vacío como lo solicitaste.
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -93,11 +82,17 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Validación simple
+        if (!formData.fullName || !formData.email || !formData.country) {
+            alert("Por favor, rellena los campos obligatorios.");
+            return;
+        }
         console.log("Datos de inscripción enviados:", formData);
         onConfirm(course); // Pasa el curso de vuelta al componente padre
     };
 
     const inputClasses = "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1ABC9C] focus:border-[#1ABC9C]";
+    const labelClasses = "block text-sm font-medium text-gray-700 mb-1 mt-3"; // Clase para la etiqueta
 
     return (
         <div className="p-4 space-y-6">
@@ -106,11 +101,66 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 
             <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-xl shadow-lg">
                 
-                <input type="text" name="fullName" placeholder="Nombre Completo" value={formData.fullName} onChange={handleChange} required className={inputClasses}/>
-                <input type="email" name="email" placeholder="Correo Electrónico" value={formData.email} onChange={handleChange} required className={inputClasses}/>
-                <input type="tel" name="phone" placeholder="Teléfono" value={formData.phone} onChange={handleChange} className={inputClasses}/>
-                <input type="text" name="country" placeholder="País de Residencia" value={formData.country} onChange={handleChange} required className={inputClasses}/>
+                {/* Campo Nombre Completo */}
+                <div>
+                    <label htmlFor="fullName" className={labelClasses}>Nombre Completo *</label>
+                    <input 
+                        id="fullName"
+                        type="text" 
+                        name="fullName" 
+                        placeholder="Escribe tu nombre completo" 
+                        value={formData.fullName} 
+                        onChange={handleChange} 
+                        required
+                        className={inputClasses}
+                    />
+                </div>
                 
+                {/* Campo Correo Electrónico */}
+                <div>
+                    <label htmlFor="email" className={labelClasses}>Correo Electrónico *</label>
+                    <input 
+                        id="email"
+                        type="email" 
+                        name="email" 
+                        placeholder="ejemplo@correo.com" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        required
+                        className={inputClasses}
+                    />
+                </div>
+                
+                {/* Campo Teléfono */}
+                <div>
+                    <label htmlFor="phone" className={labelClasses}>Teléfono (Opcional)</label>
+                    <input 
+                        id="phone"
+                        type="tel" 
+                        name="phone" 
+                        placeholder="555-123-4567" 
+                        value={formData.phone} 
+                        onChange={handleChange} 
+                        className={inputClasses}
+                    />
+                </div>
+                
+                {/* Campo País */}
+                <div>
+                    <label htmlFor="country" className={labelClasses}>País de Residencia *</label>
+                    <input 
+                        id="country"
+                        type="text" 
+                        name="country" 
+                        placeholder="Ingresa tu país" 
+                        value={formData.country} 
+                        onChange={handleChange} 
+                        required
+                        className={inputClasses}
+                    />
+                </div>
+                
+                {/* Botón de Confirmar Inscripción */}
                 <button 
                     type="submit"
                     className="w-full py-3 bg-[#1ABC9C] text-white font-bold text-lg rounded-xl shadow-lg hover:bg-[#17202A] transition mt-6"
@@ -118,6 +168,7 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
                     Confirmar Inscripción
                 </button>
                 
+                {/* Botón de Cancelar */}
                 <button 
                     type="button"
                     onClick={onCancel}
@@ -130,11 +181,9 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
     );
 };
 
-
 // Componente Vista de Detalle del Curso
 const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
     
-    // CORRECCIÓN: Usamos myCoursesList pasado por props
     const isEnrolled = myCoursesList.some(mc => mc.id === course.id);
     
     const enrolledCourse = isEnrolled ? myCoursesList.find(mc => mc.id === course.id) : null;
@@ -214,21 +263,17 @@ const CoursesScreen = () => {
   // Función que se llama al confirmar el formulario
   const handleEnrollmentConfirm = (course) => {
     
-    // 1. Crear la nueva entrada en Mis Cursos
-    // Se busca el curso completo en el catálogo inicial (para asegurar que tenemos todos los datos, aunque no es estrictamente necesario aquí)
     const fullCourseDetails = initialCatalogData.find(c => c.id === course.id); 
     
     const newMyCourse = { 
         ...fullCourseDetails, 
-        progress: 1, // Inicia con 1% de progreso
-        price: undefined // Quitamos el precio ya que está inscrito
+        progress: 1, 
+        price: undefined 
     };
     
-    // 2. Mover el curso del catálogo (Simulación de "inscripción")
     setCatalogData(prev => prev.filter(c => c.id !== course.id));
     setMyCoursesData(prev => [...prev, newMyCourse]);
     
-    // 3. Resetear la vista para volver a la lista de Mis Cursos
     setSelectedCourse(null);
     setIsEnrolling(false);
     setActiveView('myCourses');
@@ -237,7 +282,6 @@ const CoursesScreen = () => {
   
   // LÓGICA DE RENDERIZADO PRINCIPAL
   
-  // 1. Si está en el formulario de inscripción, muestra el formulario
   if (isEnrolling && selectedCourse) {
       return (
         <EnrollmentForm 
@@ -248,19 +292,17 @@ const CoursesScreen = () => {
       );
   }
   
-  // 2. Si hay un curso seleccionado (detalles), muestra la vista de detalle
   if (selectedCourse) {
       return (
         <CourseDetail 
             course={selectedCourse} 
             onBack={() => setSelectedCourse(null)} 
             onEnrollClick={() => setIsEnrolling(true)}
-            myCoursesList={myCoursesData} // CORRECCIÓN: Pasamos la lista de cursos inscritos
+            myCoursesList={myCoursesData} 
         />
       );
   }
 
-  // 3. Si no hay nada seleccionado, muestra el Catálogo/Mis Cursos
   const currentData = activeView === 'catalog' ? catalogData : myCoursesData;
 
   const filteredCourses = currentData.filter(course =>
