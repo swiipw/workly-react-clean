@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Home, Briefcase, BookOpen, User, MessageSquare, Bot } from 'lucide-react';
-import WelcomeScreen from './screens/WelcomeScreen'; // ¡Asumiendo que este archivo existe!
+// IMPORTACIÓN CORRECTA
+import HomeScreen from './screens/HomeScreen'; 
 import LoginScreen from './screens/LoginScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
@@ -8,7 +9,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import WorklyLogo from './components/WorklyLogo';
 import NotificationBar from './components/NotificationBar'; 
 
-// Componente Dummy para la pantalla de Chat/Asistente si no existe el archivo:
+// Componente Dummy para la pantalla de Chat/Asistente
 const ChatScreen = () => (
     <div className="p-4 text-center text-gray-500">
         <Bot className="w-10 h-10 mx-auto mb-2 text-[#1ABC9C]" />
@@ -25,7 +26,7 @@ const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 const MainAppScreen = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); 
   const [currentUser, setCurrentUser] = useState(initialUser);
-  const [activeTab, setActiveTab] = useState('home'); // Cambiado a 'home'
+  const [activeTab, setActiveTab] = useState('home'); 
   
   const [notification, setNotification] = useState({ 
     isVisible: false, 
@@ -52,21 +53,21 @@ const MainAppScreen = () => {
   };
 
 
-  // Función para renderizar el contenido de la pestaña (¡Añadimos home y chat!)
+  // Función para renderizar el contenido de la pestaña
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <WelcomeScreen />;
+        return <HomeScreen />; // USANDO EL COMPONENTE EXISTENTE
       case 'jobs':
         return <JobsScreen />;
       case 'courses':
         return <CoursesScreen showNotification={showNotification} />; 
       case 'chat':
-        return <ChatScreen />; // Usando el componente dummy
+        return <ChatScreen />; 
       case 'profile':
         return <ProfileScreen user={currentUser} onLogout={handleLogout} />;
       default:
-        return <WelcomeScreen />;
+        return <HomeScreen />;
     }
   };
 
