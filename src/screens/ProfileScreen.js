@@ -1,130 +1,163 @@
-import React from 'react';
-// IMPORTACIÓN CORREGIDA: Se agregaron 'User' y 'BookOpen'
-import { Mail, Briefcase, Star, Clock, Heart, Edit3, Camera, User, BookOpen } from 'lucide-react'; 
+import React, { useState } from 'react';
+import { User, Mail, LogOut, UserCheck, Edit, Save, X, ChevronRight, Cake, Heart } from 'lucide-react';
 
-// Datos simulados para la demostración
-const simulatedData = {
-    age: 24,
-    photoUrl: "https://i.pravatar.cc/150?img=33", // URL de foto de perfil de ejemplo
-    preferences: ['Programación Web', 'Marketing Digital', 'Diseño UX/UI', 'Inteligencia Artificial'],
-    career: {
-        completedCourses: 7,
-        performanceRating: 4.5, // 4.5 estrellas de 5
-        totalHours: 120,
+// El componente recibe ahora 'user', 'onLogout', y 'onUpdateUser'
+const ProfileScreen = ({ user, onLogout, onUpdateUser }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  
+  // Estado inicial del formulario basado en los datos del usuario actual
+  const [formData, setFormData] = useState({
+    name: user.name || '',
+    email: user.email || '',
+    age: user.age || '',
+    preferences: user.preferences || 'Tecnología, Remoto'
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    // Validaciones simples antes de guardar
+    if (!formData.name || !formData.email) {
+        alert("El nombre y el correo electrónico son obligatorios.");
+        return;
     }
-};
-
-// Componente para renderizar estrellas de rendimiento
-const StarRating = ({ rating }) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     
+    // Llama a la función de actualización pasada desde MainAppScreen
+    onUpdateUser(formData); 
+    setIsEditing(false); // Sale del modo de edición
+  };
+
+  const inputClasses = "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1ABC9C] focus:border-[#1ABC9C]";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-1 mt-3";
+
+  // --- MODO DE EDICIÓN (Formulario) ---
+  if (isEditing) {
     return (
-        <div className="flex items-center text-[#F39C12]">
-            {[...Array(fullStars)].map((_, i) => (
-                <Star key={`full-${i}`} className="w-5 h-5 fill-current" />
-            ))}
-            {hasHalfStar && (
-                // Simulamos media estrella con un clip para mostrar solo la mitad
-                <div key="half" className="relative w-5 h-5 overflow-hidden">
-                    <Star className="absolute w-5 h-5 fill-current" />
-                    <div className="absolute w-1/2 h-full bg-white right-0"></div>
-                </div>
-            )}
-            {[...Array(emptyStars)].map((_, i) => (
-                <Star key={`empty-${i}`} className="w-5 h-5 text-gray-300" />
-            ))}
-            <span className="text-sm text-gray-600 ml-2">({rating.toFixed(1)} / 5)</span>
-        </div>
+      <div className="p-4 space-y-6">
+          <h1 className="text-3xl font-extrabold text-[#17202A] flex items-center mb-6">
+            <Edit className="w-6 h-6 mr-2 text-[#F39C12]" /> Editar Perfil
+          </h1>
+          
+          <div className="bg-white p-6 rounded-xl shadow-lg space-y-4">
+              
+              <div>
+                  <label htmlFor="name" className={labelClasses}>Nombre Completo *</label>
+                  <input 
+                      id="name"
+                      type="text" 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleChange} 
+                      className={inputClasses}
+                      required
+                  />
+              </div>
+
+              <div>
+                  <label htmlFor="email" className={labelClasses}>Correo Electrónico *</label>
+                  <input 
+                      id="email"
+                      type="email" 
+                      name="email" 
+                      value={formData.email} 
+                      onChange={handleChange} 
+                      className={inputClasses}
+                      required
+                  />
+              </div>
+              
+              <div>
+                  <label htmlFor="age" className={labelClasses}>Edad</label>
+                  <input 
+                      id="age"
+                      type="number" 
+                      name="age" 
+                      value={formData.age} 
+                      onChange={handleChange} 
+                      className={inputClasses}
+                  />
+              </div>
+              
+              <div>
+                  <label htmlFor="preferences" className={labelClasses}>Gustos y Preferencias (Separar por coma)</label>
+                  <textarea 
+                      id="preferences"
+                      name="preferences" 
+                      value={formData.preferences} 
+                      onChange={handleChange} 
+                      rows="3"
+                      className={inputClasses}
+                  />
+              </div>
+              
+              <button
+                  onClick={handleSave}
+                  className="w-full flex items-center justify-center py-3 bg-[#1ABC9C] text-white font-bold text-lg rounded-xl shadow-lg hover:bg-[#17202A] transition mt-6"
+              >
+                  <Save className="w-5 h-5 mr-2" />
+                  Guardar Cambios
+              </button>
+              
+              <button
+                  onClick={() => setIsEditing(false)}
+                  className="w-full flex items-center justify-center py-2 text-red-600 font-semibold rounded-xl hover:bg-red-50 transition"
+              >
+                  <X className="w-5 h-5 mr-2" />
+                  Cancelar
+              </button>
+          </div>
+      </div>
     );
-};
+  }
 
+  // --- MODO VISTA (Por defecto) ---
+  return (
+    <div className="p-4 space-y-6">
+      <header className="bg-white p-6 rounded-xl shadow-lg text-center">
+        <User className="w-16 h-16 mx-auto mb-3 text-[#1ABC9C] p-3 bg-[#E8F8F5] rounded-full" />
+        <h1 className="text-3xl font-extrabold text-[#17202A]">{user.name}</h1>
+        <p className="text-gray-600 flex items-center justify-center mt-1">
+          <Mail className="w-4 h-4 mr-1 text-[#F39C12]" />
+          {user.email}
+        </p>
+        
+        {/* Botón para entrar en modo edición */}
+        <button
+            onClick={() => setIsEditing(true)}
+            className="mt-4 flex items-center justify-center mx-auto text-sm font-semibold text-blue-600 hover:text-blue-800 transition"
+        >
+            <Edit className="w-4 h-4 mr-1" />
+            Editar Perfil
+        </button>
+      </header>
 
-const ProfileScreen = ({ user, onLogout }) => {
-    // Generamos un nombre de usuario simple a partir del nombre
-    const username = user.name.toLowerCase().replace(/\s/g, ''); 
-
-    return (
-        <div className="p-4 space-y-8">
-
-            {/* 1. SECCIÓN DE INFORMACIÓN BÁSICA Y FOTO */}
-            <div className="flex flex-col items-center bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#1ABC9C]">
-                
-                {/* Contenedor de Foto y Botón de Edición */}
-                <div className="relative mb-4">
-                    <img 
-                        src={simulatedData.photoUrl} 
-                        alt="Foto de Perfil"
-                        className="w-28 h-28 object-cover rounded-full border-4 border-white shadow-md"
-                    />
-                    <button 
-                        className="absolute bottom-0 right-0 p-2 bg-[#F39C12] text-white rounded-full hover:bg-[#E67E22] transition shadow-md"
-                        aria-label="Cambiar foto"
-                    >
-                        <Camera className="w-4 h-4" />
-                    </button>
-                </div>
-
-                <h2 className="text-3xl font-extrabold text-[#17202A]">{user.name}</h2>
-                <p className="text-gray-500 text-lg mb-4">@{username}</p>
-                
-                <div className="w-full space-y-2 text-gray-700">
-                    <p className="flex items-center"><Mail className="w-5 h-5 mr-3 text-[#1ABC9C]" /> {user.email}</p>
-                    <p className="flex items-center"><User className="w-5 h-5 mr-3 text-[#1ABC9C]" /> {simulatedData.age} años</p>
-                </div>
-            </div>
-
-            {/* 2. GUSTOS Y PREFERENCIAS */}
-            <section className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex justify-between items-center mb-4 border-b pb-2">
-                    <h3 className="text-xl font-bold text-[#17202A] flex items-center"><Heart className="w-5 h-5 mr-2 text-red-500" /> Gustos y Preferencias</h3>
-                    <button className="text-[#1ABC9C] hover:text-[#17202A]"><Edit3 className="w-5 h-5" /></button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                    {simulatedData.preferences.map((pref, index) => (
-                        <span key={index} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
-                            {pref}
-                        </span>
-                    ))}
-                </div>
-            </section>
-
-            {/* 3. MI TRAYECTORIA */}
-            <section className="bg-white p-6 rounded-xl shadow-lg">
-                <h3 className="text-xl font-bold text-[#17202A] mb-4 flex items-center"><Briefcase className="w-5 h-5 mr-2 text-[#F39C12]" /> Mi Trayectoria</h3>
-                
-                <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                        <p className="flex items-center text-gray-700"><BookOpen className="w-5 h-5 mr-2 text-[#1ABC9C]" /> Cursos Completados:</p>
-                        <span className="font-bold text-lg">{simulatedData.career.completedCourses}</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center">
-                        <p className="flex items-center text-gray-700"><Clock className="w-5 h-5 mr-2 text-[#1ABC9C]" /> Horas de Aprendizaje:</p>
-                        <span className="font-bold text-lg">{simulatedData.career.totalHours}h</span>
-                    </div>
-                    
-                    <div className="border-t pt-3">
-                        <p className="text-gray-700 font-semibold mb-1">Rendimiento (Promedio de Estrellas):</p>
-                        <StarRating rating={simulatedData.career.performanceRating} />
-                    </div>
-                </div>
-            </section>
-
-
-            {/* BOTÓN DE CERRAR SESIÓN */}
-            <div className="pt-4 pb-12">
-                <button
-                    onClick={onLogout}
-                    className="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-md hover:bg-red-700 transition"
-                >
-                    Cerrar Sesión
-                </button>
-            </div>
-            
+      <section className="bg-white p-4 rounded-xl shadow-md space-y-3">
+        <h2 className="text-xl font-bold text-[#17202A] mb-3">Detalles</h2>
+        <div className="space-y-2">
+            <p className="flex items-center text-gray-700">
+                <Cake className="w-5 h-5 mr-2 text-red-500" /> 
+                Edad: <span className="font-semibold ml-1">{user.age || 'No especificada'}</span>
+            </p>
+            <p className="flex items-center text-gray-700">
+                <Heart className="w-5 h-5 mr-2 text-[#F39C12]" /> 
+                Preferencias: <span className="font-semibold ml-1">{user.preferences || 'No especificadas'}</span>
+            </p>
         </div>
-    );
+      </section>
+      
+      {/* Botón de Cerrar Sesión */}
+      <button
+        onClick={onLogout}
+        className="w-full flex items-center justify-center py-3 bg-red-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-red-700 transition"
+      >
+        <LogOut className="w-5 h-5 mr-2" />
+        Cerrar Sesión
+      </button>
+    </div>
+  );
 };
 
 export default ProfileScreen;
