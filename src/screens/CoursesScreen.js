@@ -72,9 +72,6 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
         country: '',
     });
     
-    // --- LÓGICA DE AUTO-RELLENO ELIMINADA ---
-    // El formulario empieza vacío como lo solicitaste.
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -181,6 +178,7 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
     );
 };
 
+
 // Componente Vista de Detalle del Curso
 const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
     
@@ -250,7 +248,7 @@ const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
 }
 
 // Componente Principal de Cursos
-const CoursesScreen = () => {
+const CoursesScreen = ({ showNotification }) => { // RECIBIMOS LA PROP DE NOTIFICACIÓN
   const [searchTerm, setSearchTerm] = useState('');
   const [activeView, setActiveView] = useState('catalog');
   const [selectedCourse, setSelectedCourse] = useState(null); 
@@ -277,6 +275,11 @@ const CoursesScreen = () => {
     setSelectedCourse(null);
     setIsEnrolling(false);
     setActiveView('myCourses');
+    
+    // LLAMADA A LA FUNCIÓN DE NOTIFICACIÓN
+    if (showNotification) {
+      showNotification("¡Inscripción completada! Accede al curso en \"Mis cursos\".");
+    }
   };
   
   
@@ -348,7 +351,7 @@ const CoursesScreen = () => {
           </button>
           <button
             onClick={() => { setActiveView('myCourses'); setSearchTerm(''); }}
-            className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeView === 'myCourses' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
+            className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeTab === 'myCourses' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
           >
             Mis Cursos ({myCoursesData.length})
           </button>
