@@ -248,9 +248,9 @@ const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
 }
 
 // Componente Principal de Cursos
-const CoursesScreen = ({ showNotification }) => { // RECIBIMOS LA PROP DE NOTIFICACIÓN
+const CoursesScreen = ({ showNotification }) => { 
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeView, setActiveView] = useState('catalog');
+  const [activeView, setActiveView] = useState('catalog'); // Usamos activeView como estado local
   const [selectedCourse, setSelectedCourse] = useState(null); 
   const [isEnrolling, setIsEnrolling] = useState(false); 
   
@@ -345,13 +345,15 @@ const CoursesScreen = ({ showNotification }) => { // RECIBIMOS LA PROP DE NOTIFI
         <div className="flex bg-gray-100 p-1 rounded-xl shadow-inner mb-4">
           <button
             onClick={() => { setActiveView('catalog'); setSearchTerm(''); }}
+            // CORREGIDO: Usar activeView en lugar de activeTab
             className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeView === 'catalog' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
           >
             Catálogo de Cursos
           </button>
           <button
             onClick={() => { setActiveView('myCourses'); setSearchTerm(''); }}
-            className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeTab === 'myCourses' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
+            // CORREGIDO: Usar activeView en lugar de activeTab
+            className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeView === 'myCourses' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
           >
             Mis Cursos ({myCoursesData.length})
           </button>
