@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Home, Briefcase, BookOpen, User } from 'lucide-react';
-import WelcomeScreen from './screens/WelcomeScreen';
+// ELIMINADA: import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import WorklyLogo from './components/WorklyLogo';
-// ¡NUEVA IMPORTACIÓN!
 import NotificationBar from './components/NotificationBar'; 
 
-// Datos simulados para el usuario actual (debes definir estos datos o tenerlos ya)
+// Datos simulados para el usuario actual (usados solo si isLoggedIn = true)
 const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 
 
 const MainAppScreen = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Cambiado a true para simular el inicio
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Se mantiene en true para facilitar la navegación
   const [currentUser, setCurrentUser] = useState(initialUser);
   const [activeTab, setActiveTab] = useState('jobs'); 
   
-  // NUEVO ESTADO: Para controlar la notificación
   const [notification, setNotification] = useState({ 
     isVisible: false, 
     message: '' 
@@ -35,7 +33,6 @@ const MainAppScreen = () => {
     setActiveTab('jobs'); 
   };
 
-  // NUEVA FUNCIÓN: Mostrar notificación
   const showNotification = (message) => {
     setNotification({ isVisible: true, message });
     
@@ -52,7 +49,7 @@ const MainAppScreen = () => {
       case 'jobs':
         return <JobsScreen />;
       case 'courses':
-        // PASAMOS LA FUNCIÓN DE NOTIFICACIÓN A COURSES SCREEN
+        // Pasamos la función de notificación
         return <CoursesScreen showNotification={showNotification} />; 
       case 'profile':
         return <ProfileScreen user={currentUser} onLogout={handleLogout} />;
