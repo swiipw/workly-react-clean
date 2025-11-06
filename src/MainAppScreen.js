@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Home, Briefcase, BookOpen, User, MessageSquare, Bot } from 'lucide-react';
-// Asumiendo que estos 4 existen:
 import HomeScreen from './screens/HomeScreen'; 
 import LoginScreen from './screens/LoginScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
-
 import WorklyLogo from './components/WorklyLogo';
-import NotificationBar from './components/NotificationBar'; 
 
 // Componente Dummy para la pantalla de Chat/Asistente
 const ChatScreen = () => (
@@ -20,80 +17,65 @@ const ChatScreen = () => (
 );
 
 
-// Datos simulados para el usuario actual (usados solo si isLoggedIn = true)
+// Datos simulados para el usuario actual
 const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 
 
 const MainAppScreen = () => {
-  // Configuración de estado inicial para ver el LOGIN. Cambia a true para saltarlo.
+  // CLAVE: Iniciamos en false para ver la pantalla de Login
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const [currentUser, setCurrentUser] = useState(null); // Debe ser null para forzar login
+  const [currentUser, setCurrentUser] = useState(null); 
   
-  // CLAVE: Iniciamos en 'jobs' o 'home'. Si 'home' falla, 'jobs' debería funcionar.
-  const [activeTab, setActiveTab] = useState('jobs'); 
+  // CLAVE: Pestaña inicial para las 5 pestañas
+  const [activeTab, setActiveTab] = useState('home'); 
   
-  const [notification, setNotification] = useState({ 
-    isVisible: false, 
-    message: '' 
-  });
+  // Eliminado: Estado de notificación
 
   const handleLogin = (name, email) => {
     setCurrentUser({ name, email });
     setIsLoggedIn(true);
-    // CLAVE: Asegura que al loguearse, vaya a una pestaña funcional.
-    setActiveTab('jobs'); 
+    // Vuelve a 'home' como el destino predeterminado después del login
+    setActiveTab('home'); 
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
     setIsLoggedIn(false);
-    setActiveTab('jobs'); 
+    setActiveTab('home'); 
   };
 
-  const showNotification = (message) => {
-    setNotification({ isVisible: true, message });
-    
-    setTimeout(() => {
-      setNotification(prev => ({ ...prev, isVisible: false }));
-    }, 3000); 
-  };
+  // Eliminada: Función showNotification
 
 
   // Función para renderizar el contenido de la pestaña
   const renderContent = () => {
-    
-    // Si activeTab es 'home', sigue usando HomeScreen.
     switch (activeTab) {
       case 'home':
         return <HomeScreen />; 
       case 'jobs':
         return <JobsScreen />;
       case 'courses':
-        return <CoursesScreen showNotification={showNotification} />; 
+        // No se pasa showNotification
+        return <CoursesScreen />; 
       case 'chat':
         return <ChatScreen />; 
       case 'profile':
         return <ProfileScreen user={currentUser} onLogout={handleLogout} />;
       default:
-        // Si hay un error, por seguridad volvemos a JobsScreen
-        return <JobsScreen />;
+        return <HomeScreen />;
     }
   };
 
   
   if (!isLoggedIn) {
-    // Si no está logueado, sólo muestra la pantalla de Login
     return <LoginScreen onLogin={handleLogin} />;
   }
 
-  // Si está logueado, muestra la App Completa
+  // --- COMPONENTE PRINCIPAL ---
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
         
-        <NotificationBar 
-            message={notification.message}
-            isVisible={notification.isVisible}
-        />
+        {/* Eliminada: NotificationBar */}
 
         <header className="flex items-center justify-between p-4 bg-white border-b shadow-sm sticky top-0 z-20">
             <WorklyLogo />
@@ -108,7 +90,7 @@ const MainAppScreen = () => {
             {renderContent()}
         </main>
 
-        {/* Barra de Navegación Inferior - 5 Pestañas */}
+        {/* Barra de Navegación Inferior - 5 Pestañas RESTAURADAS */}
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-20 p-1">
             <div className="flex justify-around">
                 
@@ -121,7 +103,7 @@ const MainAppScreen = () => {
                     <span className="text-xs">Inicio</span>
                 </button>
                 
-                {/* 2. Botón Empleos (Ahora el predeterminado después del Login) */}
+                {/* 2. Botón Empleos */}
                 <button
                     onClick={() => setActiveTab('jobs')}
                     className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'jobs' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
