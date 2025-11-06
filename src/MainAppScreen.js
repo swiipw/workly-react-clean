@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Briefcase, BookOpen, User } from 'lucide-react';
-// ELIMINADA: import WelcomeScreen from './screens/WelcomeScreen';
+import { Home, Briefcase, BookOpen, User, MessageSquare, Bot } from 'lucide-react';
+import WelcomeScreen from './screens/WelcomeScreen'; // ¡Asumiendo que este archivo existe!
 import LoginScreen from './screens/LoginScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
@@ -8,14 +8,24 @@ import ProfileScreen from './screens/ProfileScreen';
 import WorklyLogo from './components/WorklyLogo';
 import NotificationBar from './components/NotificationBar'; 
 
+// Componente Dummy para la pantalla de Chat/Asistente si no existe el archivo:
+const ChatScreen = () => (
+    <div className="p-4 text-center text-gray-500">
+        <Bot className="w-10 h-10 mx-auto mb-2 text-[#1ABC9C]" />
+        <h2 className="text-xl font-bold">Asistente AI (Próximamente)</h2>
+        <p>Aquí irá el chat con el asistente Workly.</p>
+    </div>
+);
+
+
 // Datos simulados para el usuario actual (usados solo si isLoggedIn = true)
 const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 
 
 const MainAppScreen = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Se mantiene en true para facilitar la navegación
+  const [isLoggedIn, setIsLoggedIn] = useState(true); 
   const [currentUser, setCurrentUser] = useState(initialUser);
-  const [activeTab, setActiveTab] = useState('jobs'); 
+  const [activeTab, setActiveTab] = useState('home'); // Cambiado a 'home'
   
   const [notification, setNotification] = useState({ 
     isVisible: false, 
@@ -30,31 +40,33 @@ const MainAppScreen = () => {
   const handleLogout = () => {
     setCurrentUser(null);
     setIsLoggedIn(false);
-    setActiveTab('jobs'); 
+    setActiveTab('home'); 
   };
 
   const showNotification = (message) => {
     setNotification({ isVisible: true, message });
     
-    // Ocultar la notificación después de 3000ms (3 segundos)
     setTimeout(() => {
       setNotification(prev => ({ ...prev, isVisible: false }));
     }, 3000); 
   };
 
 
-  // Función para renderizar el contenido de la pestaña
+  // Función para renderizar el contenido de la pestaña (¡Añadimos home y chat!)
   const renderContent = () => {
     switch (activeTab) {
+      case 'home':
+        return <WelcomeScreen />;
       case 'jobs':
         return <JobsScreen />;
       case 'courses':
-        // Pasamos la función de notificación
         return <CoursesScreen showNotification={showNotification} />; 
+      case 'chat':
+        return <ChatScreen />; // Usando el componente dummy
       case 'profile':
         return <ProfileScreen user={currentUser} onLogout={handleLogout} />;
       default:
-        return <JobsScreen />;
+        return <WelcomeScreen />;
     }
   };
 
@@ -63,16 +75,15 @@ const MainAppScreen = () => {
     return <LoginScreen onLogin={handleLogin} />;
   }
 
+  // --- COMPONENTE PRINCIPAL ---
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
         
-        {/* Renderiza la barra de notificaciones */}
         <NotificationBar 
             message={notification.message}
             isVisible={notification.isVisible}
         />
 
-        {/* Encabezado Fijo */}
         <header className="flex items-center justify-between p-4 bg-white border-b shadow-sm sticky top-0 z-20">
             <WorklyLogo />
             {currentUser && (
@@ -82,16 +93,24 @@ const MainAppScreen = () => {
             )}
         </header>
 
-        {/* Contenido Principal */}
         <main className="flex-1 overflow-y-auto pb-20">
             {renderContent()}
         </main>
 
-        {/* Barra de Navegación Inferior */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-20 p-2">
+        {/* Barra de Navegación Inferior - 5 Pestañas */}
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-20 p-1">
             <div className="flex justify-around">
                 
-                {/* Botón Empleos */}
+                {/* 1. Botón Home */}
+                <button
+                    onClick={() => setActiveTab('home')}
+                    className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'home' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
+                >
+                    <Home className="w-6 h-6" />
+                    <span className="text-xs">Inicio</span>
+                </button>
+                
+                {/* 2. Botón Empleos */}
                 <button
                     onClick={() => setActiveTab('jobs')}
                     className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'jobs' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
@@ -100,7 +119,7 @@ const MainAppScreen = () => {
                     <span className="text-xs">Empleos</span>
                 </button>
                 
-                {/* Botón Cursos */}
+                {/* 3. Botón Cursos */}
                 <button
                     onClick={() => setActiveTab('courses')}
                     className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'courses' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
@@ -109,7 +128,16 @@ const MainAppScreen = () => {
                     <span className="text-xs">Cursos</span>
                 </button>
                 
-                {/* Botón Perfil */}
+                {/* 4. Botón Chat / Asistente */}
+                <button
+                    onClick={() => setActiveTab('chat')}
+                    className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'chat' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
+                >
+                    <MessageSquare className="w-6 h-6" />
+                    <span className="text-xs">Asistente</span>
+                </button>
+                
+                {/* 5. Botón Perfil */}
                 <button
                     onClick={() => setActiveTab('profile')}
                     className={`flex flex-col items-center p-2 rounded-lg transition ${activeTab === 'profile' ? 'text-[#1ABC9C] font-semibold' : 'text-gray-500 hover:text-[#17202A]'}`}
