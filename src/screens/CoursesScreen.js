@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, BookOpen, Clock, BarChart, CheckCircle, ArrowLeft, Layers, UserCheck, DollarSign } from 'lucide-react';
 
-// --- DATOS INICIALES (FUERA DEL COMPONENTE PRINCIPAL) ---
+// --- DATOS INICIALES ---
 const initialCatalogData = [
   { id: 101, title: "Introducción a la IA Generativa", category: "Tecnología", duration: "10h", level: "Básico", price: "$49", description: "Aprende los conceptos clave de la Inteligencia Artificial moderna, modelos de lenguaje y aplicaciones prácticas.", instructor: "Dr. Elena Vargas", topics: ["Modelos LLM", "Prompt Engineering", "Ética de IA"], students: 350 },
   { id: 102, title: "Master en Tailwind CSS y React", category: "Programación", duration: "25h", level: "Avanzado", price: "$199", description: "Domina la construcción de interfaces rápidas y modernas usando la librería de componentes de React y Tailwind CSS.", instructor: "Ing. Marco Ríos", topics: ["Clases de Utilidad", "Responsive Design", "Hooks de React"], students: 120 },
@@ -16,7 +16,7 @@ const initialMyCoursesData = [
 // -----------------------
 
 
-// Componente Tarjeta de Curso
+// Componente Tarjeta de Curso (Sin cambios)
 const CourseCard = ({ course, onClick, isMyCourse = false }) => (
     <div 
         onClick={() => onClick(course)} 
@@ -62,9 +62,8 @@ const CourseCard = ({ course, onClick, isMyCourse = false }) => (
 );
 
 
-// Componente Formulario de Inscripción
+// Componente Formulario de Inscripción (Con labels y funcionalidad básica)
 const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
-    // Inicialización de estado vacío por defecto
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -79,17 +78,17 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validación simple
         if (!formData.fullName || !formData.email || !formData.country) {
             alert("Por favor, rellena los campos obligatorios.");
             return;
         }
         console.log("Datos de inscripción enviados:", formData);
-        onConfirm(course); // Pasa el curso de vuelta al componente padre
+        onConfirm(course); 
+        alert("¡Inscripción completada! Accede al curso en \"Mis cursos\"."); // Usamos alert simple
     };
 
     const inputClasses = "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1ABC9C] focus:border-[#1ABC9C]";
-    const labelClasses = "block text-sm font-medium text-gray-700 mb-1 mt-3"; // Clase para la etiqueta
+    const labelClasses = "block text-sm font-medium text-gray-700 mb-1 mt-3"; 
 
     return (
         <div className="p-4 space-y-6">
@@ -179,11 +178,9 @@ const EnrollmentForm = ({ course, onConfirm, onCancel }) => {
 };
 
 
-// Componente Vista de Detalle del Curso
+// Componente Vista de Detalle del Curso (Sin cambios)
 const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
-    
     const isEnrolled = myCoursesList.some(mc => mc.id === course.id);
-    
     const enrolledCourse = isEnrolled ? myCoursesList.find(mc => mc.id === course.id) : null;
 
     return (
@@ -248,9 +245,9 @@ const CourseDetail = ({ course, onBack, onEnrollClick, myCoursesList }) => {
 }
 
 // Componente Principal de Cursos
-const CoursesScreen = ({ showNotification }) => { 
+const CoursesScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeView, setActiveView] = useState('catalog'); // Usamos activeView como estado local
+  const [activeView, setActiveView] = useState('catalog'); 
   const [selectedCourse, setSelectedCourse] = useState(null); 
   const [isEnrolling, setIsEnrolling] = useState(false); 
   
@@ -275,11 +272,6 @@ const CoursesScreen = ({ showNotification }) => {
     setSelectedCourse(null);
     setIsEnrolling(false);
     setActiveView('myCourses');
-    
-    // LLAMADA A LA FUNCIÓN DE NOTIFICACIÓN
-    if (showNotification) {
-      showNotification("¡Inscripción completada! Accede al curso en \"Mis cursos\".");
-    }
   };
   
   
@@ -345,14 +337,12 @@ const CoursesScreen = ({ showNotification }) => {
         <div className="flex bg-gray-100 p-1 rounded-xl shadow-inner mb-4">
           <button
             onClick={() => { setActiveView('catalog'); setSearchTerm(''); }}
-            // CORREGIDO: Usar activeView en lugar de activeTab
             className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeView === 'catalog' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
           >
             Catálogo de Cursos
           </button>
           <button
             onClick={() => { setActiveView('myCourses'); setSearchTerm(''); }}
-            // CORREGIDO: Usar activeView en lugar de activeTab
             className={`flex-1 py-2 text-center text-sm font-semibold rounded-lg transition ${activeView === 'myCourses' ? 'bg-white shadow-md text-[#17202A]' : 'text-gray-600 hover:bg-gray-200'}`}
           >
             Mis Cursos ({myCoursesData.length})
@@ -367,7 +357,7 @@ const CoursesScreen = ({ showNotification }) => {
             placeholder={activeView === 'catalog' ? "Buscar en el catálogo..." : "Buscar en mis cursos..."}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1ABC9C] focus:border-transparent transition"
+            className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1ABC9C] focus:border-transparent transition shadow-md"
           />
         </div>
       </div>
