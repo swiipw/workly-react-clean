@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Home, Briefcase, BookOpen, User, MessageSquare, Bot } from 'lucide-react';
-// IMPORTACIÓN CORRECTA
+// Asumiendo que estos 4 existen:
 import HomeScreen from './screens/HomeScreen'; 
 import LoginScreen from './screens/LoginScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
+
 import WorklyLogo from './components/WorklyLogo';
 import NotificationBar from './components/NotificationBar'; 
 
@@ -24,6 +25,9 @@ const initialUser = { name: "Usuario Ejemplo", email: "ejemplo@workly.com" };
 
 
 const MainAppScreen = () => {
+  // Inicialización CLAVE para desarrollo/prueba: 
+  // Si quieres que inicie en el login: useState(false)
+  // Si quieres que inicie logueado: useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(true); 
   const [currentUser, setCurrentUser] = useState(initialUser);
   const [activeTab, setActiveTab] = useState('home'); 
@@ -36,6 +40,8 @@ const MainAppScreen = () => {
   const handleLogin = (name, email) => {
     setCurrentUser({ name, email });
     setIsLoggedIn(true);
+    // Asegura que al loguearse, vaya a la pestaña 'home'
+    setActiveTab('home'); 
   };
 
   const handleLogout = () => {
@@ -55,9 +61,16 @@ const MainAppScreen = () => {
 
   // Función para renderizar el contenido de la pestaña
   const renderContent = () => {
+    // Si activeTab es 'home' y currentUser es null, esto podría causar problemas
+    if (!isLoggedIn || !currentUser) {
+        // Esto no debería pasar si renderContent solo se llama cuando isLoggedIn es true, 
+        // pero es una buena práctica de seguridad.
+        return <HomeScreen />; // O un componente de carga/error seguro
+    }
+    
     switch (activeTab) {
       case 'home':
-        return <HomeScreen />; // USANDO EL COMPONENTE EXISTENTE
+        return <HomeScreen />; 
       case 'jobs':
         return <JobsScreen />;
       case 'courses':
@@ -73,10 +86,11 @@ const MainAppScreen = () => {
 
   
   if (!isLoggedIn) {
+    // Si no está logueado, sólo muestra la pantalla de Login
     return <LoginScreen onLogin={handleLogin} />;
   }
 
-  // --- COMPONENTE PRINCIPAL ---
+  // Si está logueado, muestra la App Completa
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
         
