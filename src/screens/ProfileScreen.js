@@ -17,7 +17,7 @@ const StarRating = ({ rating }) => {
     return (
         <div className="flex items-center text-[#F39C12]">
             {[...Array(fullStars)].map((_, i) => (
-                <Star key={`full-${i}`} className="w-5 h-5 fill-current" />
+                <Star key={full-${i}} className="w-5 h-5 fill-current" />
             ))}
             {hasHalfStar && (
                 // Simulamos media estrella con un clip para mostrar solo la mitad
@@ -27,7 +27,7 @@ const StarRating = ({ rating }) => {
                 </div>
             )}
             {[...Array(emptyStars)].map((_, i) => (
-                <Star key={`empty-${i}`} className="w-5 h-5 text-gray-300" />
+                <Star key={empty-${i}} className="w-5 h-5 text-gray-300" />
             ))}
             <span className="text-sm text-gray-600 ml-2">({rating.toFixed(1)} / 5)</span>
         </div>
@@ -36,19 +36,19 @@ const StarRating = ({ rating }) => {
 
 
 // Componente principal ProfileScreen
+// Recibe user, onLogout y onUpdateUser
 const ProfileScreen = ({ user, onLogout, onUpdateUser }) => {
     const [isEditing, setIsEditing] = useState(false);
     
-    // Estado que guarda los datos del formulario mientras se edita
-    // Inicializamos con los valores del usuario actual
+    // Estado inicial del formulario. Aseguramos que los valores sean iniciales
     const [formData, setFormData] = useState({
         name: user?.name || '',
         email: user?.email || '',
         age: user?.age || '',
-        preferences: user?.preferences || '' 
+        preferences: user?.preferences || ''
     });
 
-    // Carga los datos más recientes del usuario al hacer clic en editar
+    // Esta función se llama al iniciar la edición para asegurarse de que el formulario tenga los datos más recientes
     const handleEditClick = () => {
         setFormData({
             name: user?.name || '',
@@ -64,16 +64,14 @@ const ProfileScreen = ({ user, onLogout, onUpdateUser }) => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // FUNCIÓN CLAVE: Llama a la función del padre (onUpdateUser) para guardar los cambios
     const handleSave = () => {
         if (!formData.name || !formData.email) {
             console.error("El nombre y el correo electrónico son obligatorios.");
             return;
         }
         
-        // Ejecuta la prop (función) que MainAppScreen nos envió para actualizar el estado.
+        // Llamada a la función de actualización del componente padre
         onUpdateUser(formData); 
-        
         setIsEditing(false); // Sale del modo de edición
     };
 
@@ -146,7 +144,6 @@ const ProfileScreen = ({ user, onLogout, onUpdateUser }) => {
                         />
                     </div>
                     
-                    {/* Botón de Guardar que llama a handleSave */}
                     <button
                         onClick={handleSave}
                         className="w-full flex items-center justify-center py-3 bg-[#1ABC9C] text-white font-bold text-lg rounded-xl shadow-lg hover:bg-[#17202A] transition mt-6"
