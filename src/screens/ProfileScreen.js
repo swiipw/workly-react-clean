@@ -40,6 +40,7 @@ const ProfileScreen = ({ user, onLogout, onUpdateUser }) => {
     const [isEditing, setIsEditing] = useState(false);
     
     // Estado que guarda los datos del formulario mientras se edita
+    // Inicializamos con los valores del usuario actual
     const [formData, setFormData] = useState({
         name: user?.name || '',
         email: user?.email || '',
