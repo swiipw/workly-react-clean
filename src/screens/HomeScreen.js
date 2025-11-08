@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Users, BookOpen, Clock, Zap, MapPin } from 'lucide-react';
+import { TrendingUp, Users, BookOpen, Clock, Zap, MapPin, Briefcase, User, Star } from 'lucide-react'; // <-- IMPORTACIONES CORREGIDAS
 
 // Datos simulados
 const userData = {
@@ -22,7 +22,7 @@ const quickLinks = [
     { title: "Asistente AI", icon: Zap, color: "bg-[#3498DB]", to: "/chat" },
 ];
 
-// Componente corregido
+// Componente corregido (Clases dinámicas)
 const StatCard = ({ stat }) => (
     <div className={`p-3 rounded-xl shadow-md flex items-center justify-between transition hover:shadow-lg ${stat.bg}`}>
         <div className={`p-2 rounded-full ${stat.color} bg-white shadow-inner`}>
@@ -35,7 +35,7 @@ const StatCard = ({ stat }) => (
     </div>
 );
 
-// Componente corregido
+// Componente corregido (Clases dinámicas)
 const QuickLink = ({ link }) => (
     <button className={`w-full p-4 rounded-xl flex items-center justify-center space-x-3 transition hover:opacity-90 ${link.color} text-white font-bold`}>
         <link.icon className="w-5 h-5" />
