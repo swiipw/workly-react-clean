@@ -1,5 +1,6 @@
 import React from 'react';
-import { TrendingUp, Users, BookOpen, Clock, Zap, MapPin, Briefcase, User, Star } from 'lucide-react'; // <-- IMPORTACIONES CORREGIDAS
+// IMPORTACIÓN CORREGIDA: Incluye Briefcase, User, y Star.
+import { TrendingUp, Users, BookOpen, Clock, Zap, MapPin, Briefcase, User, Star } from 'lucide-react'; 
 
 // Datos simulados
 const userData = {
@@ -22,7 +23,6 @@ const quickLinks = [
     { title: "Asistente AI", icon: Zap, color: "bg-[#3498DB]", to: "/chat" },
 ];
 
-// Componente corregido (Clases dinámicas)
 const StatCard = ({ stat }) => (
     <div className={`p-3 rounded-xl shadow-md flex items-center justify-between transition hover:shadow-lg ${stat.bg}`}>
         <div className={`p-2 rounded-full ${stat.color} bg-white shadow-inner`}>
@@ -35,7 +35,6 @@ const StatCard = ({ stat }) => (
     </div>
 );
 
-// Componente corregido (Clases dinámicas)
 const QuickLink = ({ link }) => (
     <button className={`w-full p-4 rounded-xl flex items-center justify-center space-x-3 transition hover:opacity-90 ${link.color} text-white font-bold`}>
         <link.icon className="w-5 h-5" />
@@ -124,18 +123,3 @@ const HomeScreen = ({ user }) => {
                     <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-[#3498DB] hover:shadow-lg transition cursor-pointer">
                         <h3 className="text-lg font-bold text-[#17202A]">Desarrollador Full Stack</h3>
                         <p className="text-gray-600">Innovate Solutions</p>
-                        <p className="text-sm text-gray-500 mt-2">Remoto | $60k - $80k</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-[#3498DB] hover:shadow-lg transition cursor-pointer">
-                        <h3 className="text-lg font-bold text-[#17202A]">Diseñador Gráfico Jr.</h3>
-                        <p className="text-gray-600">Creative Hub</p>
-                        <p className="text-sm text-gray-500 mt-2">Santiago, CL | $30k</p>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    );
-};
-
-export default HomeScreen;
