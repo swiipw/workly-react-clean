@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 const FloatingAssistantButton = ({ onAssistantClick }) => {
   // Estado para controlar si el mensaje de bienvenida está visible
   const [showWelcome, setShowWelcome] = useState(true);
-    
+  
   // Efecto para ocultar el mensaje de bienvenida después de 5 segundos
   useEffect(() => {
     if (showWelcome) {
@@ -16,20 +16,15 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
     }
   }, [showWelcome]);
 
-  const handleButtonClick = (e) => {
-    // Si la funcionalidad no está implementada (solo demo)
-    alert("¡Abriendo el chat del Asistente Josué!"); 
-    
+  const handleButtonClick = () => {
     setShowWelcome(false); // Siempre ocultamos el mensaje al hacer clic en el botón
     if (onAssistantClick) {
         onAssistantClick(); // Abre el modal de chat en MainAppScreen
     }
   };
-    
+  
   const handleCloseMessage = (e) => {
-      // 🛑 CORRECCIÓN CLAVE: Detiene la propagación del evento
-      // Esto previene que el click en la 'X' active el onClick del botón flotante
-      e.stopPropagation(); 
+      e.stopPropagation(); // Evita que se dispare el click del botón que está debajo
       setShowWelcome(false);
   }
 
@@ -40,8 +35,8 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
       {showWelcome && (
         <div 
           className="absolute right-16 bottom-1/2 translate-y-1/2 
-                     bg-white text-gray-800 p-3 rounded-xl shadow-lg 
-                     max-w-xs transition-opacity duration-300 transform opacity-100"
+                      bg-white text-gray-800 p-3 rounded-xl shadow-lg 
+                      max-w-xs transition-opacity duration-300 transform opacity-100"
         >
           {/* Botón de CERRAR (X) */}
           <button 
@@ -49,7 +44,7 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
             className="absolute top-1 right-1 text-gray-400 hover:text-gray-600"
             aria-label="Cerrar mensaje"
           >
-            <X className="w-4 h-4" />
+             <X className="w-4 h-4" />
           </button>
           
           <p className="font-semibold text-sm pr-4">
@@ -58,11 +53,8 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
         </div>
       )}
 
-      {/* Círculo con la Imagen de Josué (Botón principal) */}
+      {/* Círculo con la Imagen de Josué */}
       <button
-        // 🛑 CORRECCIÓN CLAVE: El click en el botón debe detener la propagación
-        // para asegurar que si hay un click en la burbuja de mensaje (que está sobre el botón), 
-        // solo se active la acción de la burbuja (aunque lo ideal es que la burbuja esté fuera del botón)
         onClick={handleButtonClick} // Al hacer clic, abre el chat
         className="w-16 h-16 bg-white rounded-full shadow-xl flex items-center justify-center 
                    border-4 border-[#1ABC9C] transition-all duration-300 transform hover:scale-105"
