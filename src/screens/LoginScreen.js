@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, LogIn } from 'lucide-react'; 
 import PrimaryButton from '../components/PrimaryButton'; 
-// No necesitamos WorklyLogo.js si vamos a usar una imagen de logo
+// Ya no necesitamos WorklyLogo.js aquí si usamos la imagen
 // import WorklyLogo from '../components/WorklyLogo'; 
 
 const LoginScreen = ({ onLogin }) => { 
@@ -15,6 +15,7 @@ const LoginScreen = ({ onLogin }) => {
     setError('');
     setIsLoading(true); 
     
+    // Lógica simple de demo login
     setTimeout(() => {
         setIsLoading(false);
         if (password === '123456' && email.endsWith('@workly.com')) {
@@ -31,18 +32,20 @@ const LoginScreen = ({ onLogin }) => {
         
         {/* LOGO OFICIAL Y ESLOGAN */}
         <div className="flex flex-col items-center mb-10">
-          {/* Aquí cargamos la imagen del logo desde public/ */}
+          {/* RUTA: /workly_logo.png busca el archivo en la carpeta public/ */}
           <img 
-            src="/workly_logo.png" // Asegúrate de que esta ruta coincida con el nombre de tu archivo en public/
+            src="/workly_logo.png" 
             alt="Workly Logo" 
-            className="w-32 h-auto mb-4" // Ajusta el tamaño según sea necesario
+            className="w-32 h-auto mb-4" // Ajusta el tamaño (w-32 es 128px)
           />
           <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
+          {/* ESLOGAN */}
           <p className="text-gray-500 text-center text-lg font-medium">Conectamos talento joven con oportunidades del futuro</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           
+          {/* CAMPO DE CORREO */}
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
@@ -55,6 +58,7 @@ const LoginScreen = ({ onLogin }) => {
             />
           </div>
           
+          {/* CAMPO DE CONTRASEÑA */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
@@ -69,6 +73,7 @@ const LoginScreen = ({ onLogin }) => {
 
           {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
 
+          {/* BOTÓN DE INICIO DE SESIÓN */}
           <PrimaryButton type="submit" disabled={isLoading}>
             {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -84,17 +89,13 @@ const LoginScreen = ({ onLogin }) => {
           </PrimaryButton>
           
           <div className="text-center text-sm mt-4 space-y-2">
-           <button
-            type="button"
-            onClick={handleToggleRegister}
-            className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#F39C12]"
-        >
-            Regístrate
-        </button>
-    </p>
-</div>
-      </form>
+            <a href="#" className="text-[#1ABC9C] hover:text-[#17202A] block transition">¿Olvidaste tu contraseña?</a>
+            <p className="text-gray-500">¿No tienes cuenta? <a href="#" className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition">Regístrate</a></p>
+          </div>
+
+        </form>
       </div>
+    </div>
   );
 };
 
