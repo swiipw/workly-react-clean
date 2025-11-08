@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import BottomNavBar from './components/BottomNavBar';
 import WorklyLogo from './components/WorklyLogo';
-// --- NUEVA IMPORTACIÓN ---
-import FloatingAssistantButton from './components/FloatingAssistantButton'; 
-// ------------------------
+import FloatingAssistantButton from './components/FloatingAssistantButton'; // <- ASISTENTE IMPORTADO
 import HomeScreen from './screens/HomeScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
@@ -13,11 +11,11 @@ const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
     
   const handleAssistantClick = () => {
-    alert("Asistente Virtual Abierto! (Aquí iría el modal de chat)");
+    // Aquí podrías agregar lógica para abrir un modal de chat en MainAppScreen
+    // Por ahora, la lógica de alerta está en FloatingAssistantButton.js
   };
     
   const renderContent = () => {
-    // ... (código switch case igual)
     switch (activeTab) {
       case 'home':
         return (<HomeScreen user={user} />); 
@@ -44,9 +42,9 @@ const MainAppScreen = ({ user, onLogout }) => {
 
       <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
       
-      {/* --- NUEVO BOTÓN FLOTANTE --- */}
-      <FloatingAssistantButton onClick={handleAssistantClick} />
-      {/* ---------------------------- */}
+      {/* EL ASISTENTE FLOTANTE ESTÁ AQUÍ */}
+      <FloatingAssistantButton onAssistantClick={handleAssistantClick} />
+      
     </div>
   );
 };
