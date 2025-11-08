@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// Importamos los iconos que usaremos
 import { Mail, Lock, LogIn } from 'lucide-react'; 
 import PrimaryButton from '../components/PrimaryButton'; 
-import WorklyLogo from '../components/WorklyLogo'; 
+// No necesitamos WorklyLogo.js si vamos a usar una imagen de logo
+// import WorklyLogo from '../components/WorklyLogo'; 
 
 const LoginScreen = ({ onLogin }) => { 
   const [email, setEmail] = useState('nombre@workly.com'); 
@@ -15,7 +15,6 @@ const LoginScreen = ({ onLogin }) => {
     setError('');
     setIsLoading(true); 
     
-    // Lógica simple de demo login
     setTimeout(() => {
         setIsLoading(false);
         if (password === '123456' && email.endsWith('@workly.com')) {
@@ -30,16 +29,20 @@ const LoginScreen = ({ onLogin }) => {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
       <div className="w-full max-w-sm bg-white p-8 rounded-2xl shadow-2xl">
         
-        {/* LOGO ENCABEZADO */}
+        {/* LOGO OFICIAL Y ESLOGAN */}
         <div className="flex flex-col items-center mb-10">
-          <WorklyLogo size={40} className="mb-2" />
-          <h1 className="text-3xl font-extrabold text-[#17202A]">Workly</h1>
-          <p className="text-gray-500 mt-1">¡Encuentra tu próximo desafío!</p>
+          {/* Aquí cargamos la imagen del logo desde public/ */}
+          <img 
+            src="/workly_logo.png" // Asegúrate de que esta ruta coincida con el nombre de tu archivo en public/
+            alt="Workly Logo" 
+            className="w-32 h-auto mb-4" // Ajusta el tamaño según sea necesario
+          />
+          <h1 className="text-3xl font-extrabold text-[#17202A] mb-2">Workly</h1>
+          <p className="text-gray-500 text-center text-lg font-medium">Conectamos talento joven con oportunidades del futuro</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           
-          {/* CAMPO DE CORREO */}
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
@@ -52,7 +55,6 @@ const LoginScreen = ({ onLogin }) => {
             />
           </div>
           
-          {/* CAMPO DE CONTRASEÑA */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
@@ -65,10 +67,8 @@ const LoginScreen = ({ onLogin }) => {
             />
           </div>
 
-          {/* MENSAJE DE ERROR */}
           {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
 
-          {/* BOTÓN DE INICIO DE SESIÓN */}
           <PrimaryButton type="submit" disabled={isLoading}>
             {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -83,7 +83,6 @@ const LoginScreen = ({ onLogin }) => {
             )}
           </PrimaryButton>
           
-          {/* ENLACES ADICIONALES */}
           <div className="text-center text-sm mt-4 space-y-2">
             <a href="#" className="text-[#1ABC9C] hover:text-[#17202A] block transition">¿Olvidaste tu contraseña?</a>
             <p className="text-gray-500">¿No tienes cuenta? <a href="#" className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition">Regístrate</a></p>
