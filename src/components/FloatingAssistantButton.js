@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+// IMPORTACIÓN FALTANTE:
+import { X } from 'lucide-react'; 
 
 const FloatingAssistantButton = ({ onAssistantClick }) => {
   // Estado para controlar si el mensaje de bienvenida está visible
@@ -42,16 +44,17 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
       {(showWelcome || isActive) && (
         <div 
           className={`absolute right-16 bottom-1/2 translate-y-1/2 
-                      bg-white text-gray-800 p-3 rounded-xl shadow-lg 
-                      max-w-xs transition-opacity duration-300 transform 
-                      ${showWelcome ? 'opacity-100 animate-fade-in-up' : isActive ? 'opacity-100' : 'opacity-0'}`}
+                     bg-white text-gray-800 p-3 rounded-xl shadow-lg 
+                     max-w-xs transition-opacity duration-300 transform 
+                     ${showWelcome ? 'opacity-100 animate-fade-in-up' : isActive ? 'opacity-100' : 'opacity-0'}`}
         >
           <button 
             onClick={() => setShowWelcome(false)} 
             className="absolute top-1 right-1 text-gray-400 hover:text-gray-600"
             aria-label="Cerrar mensaje"
           >
-             <X className="w-4 h-4" />
+            {/* El icono X ahora está definido gracias a la importación */}
+            <X className="w-4 h-4" /> 
           </button>
           
           <p className="font-semibold text-sm pr-4">
