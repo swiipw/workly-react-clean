@@ -28,7 +28,6 @@ const MainAppScreen = ({ user, onLogout }) => {
             case 'chat': 
                 return (<ChatScreen />);
             case 'profile':
-                // Nota: ProfileScreen también necesita las correcciones de sintaxis anteriores
                 return (<ProfileScreen user={user} onLogout={onLogout} />); 
             default:
                 return (<HomeScreen user={user} />); 
