@@ -84,9 +84,15 @@ const LoginScreen = ({ onLogin }) => {
           </PrimaryButton>
           
           <div className="text-center text-sm mt-4 space-y-2">
-            <a href="#" className="text-[#1ABC9C] hover:text-[#17202A] block transition">¿Olvidaste tu contraseña?</a>
-            <p className="text-gray-500">¿No tienes cuenta? <a href="#" className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition">Regístrate</a></p>
-          </div>
+           <button
+            type="button"
+            onClick={handleToggleRegister}
+            className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#F39C12]"
+        >
+            Regístrate
+        </button>
+    </p>
+</div>
 
         </form>
       </div>
