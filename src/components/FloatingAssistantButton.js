@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, X } from 'lucide-react';
 
 const FloatingAssistantButton = ({ onAssistantClick }) => {
   // Estado para controlar si el mensaje de bienvenida está visible
@@ -56,7 +55,7 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
           </button>
           
           <p className="font-semibold text-sm pr-4">
-            ¡Hola, soy Josué! Tu asistente virtual. ¿Necesitas ayuda?
+            ¡Hola, soy Josue! Tu asistente virtual. ¿Necesitas ayuda?
           </p>
         </div>
       )}
