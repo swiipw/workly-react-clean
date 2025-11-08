@@ -93,10 +93,9 @@ const LoginScreen = ({ onLogin }) => {
         </button>
     </p>
 </div>
-</form>
+      </form>
       </div>
     </div>
-      
   );
 };
 
