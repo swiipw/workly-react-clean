@@ -6,12 +6,8 @@ const AppContext = createContext();
 
 // --- 2. Proveedor del Contexto ---
 export const AppProvider = ({ children }) => {
-    // Aquí puedes manejar el estado global (ej. user, settings, etc.)
-    
-    // Los valores que estarán disponibles para toda la aplicación
     const contextValue = {
         courses: courseData,
-        // Aquí irían las funciones de login/logout si no estuvieran en App.js
     };
 
     return (
