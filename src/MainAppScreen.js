@@ -7,55 +7,57 @@ import HomeScreen from './screens/HomeScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import ChatScreen from './screens/ChatScreen'; // <- IMPORTACIÓN CORRECTA
+import ChatScreen from './screens/ChatScreen'; 
 
 const MainAppScreen = ({ user, onLogout }) => {
-  const [activeTab, setActiveTab] = useState('home');
-  const [isChatOpen, setIsChatOpen] = useState(false); 
+    const [activeTab, setActiveTab] = useState('home');
+    const [isChatOpen, setIsChatOpen] = useState(false); 
     
-  const handleAssistantClick = () => {
-    setIsChatOpen(true);
-  };
+    const handleAssistantClick = () => {
+        setIsChatOpen(true);
+    };
     
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'home':
-        return (<HomeScreen user={user} />); 
-      case 'jobs':
-        return (<JobsScreen />); 
-      case 'courses':
-        return (<CoursesScreen />); 
-      case 'chat': // <- CASO DE CHAT CORRECTO
-        return (<ChatScreen />);
-      case 'profile':
-        return (<ProfileScreen user={user} onLogout={onLogout} />); 
-      default:
-        return (<HomeScreen user={user} />); 
-    }
-  };
+    const renderContent = () => {
+        switch (activeTab) {
+            case 'home':
+                return (<HomeScreen user={user} />); 
+            case 'jobs':
+                return (<JobsScreen />); 
+            case 'courses':
+                return (<CoursesScreen />); 
+            case 'chat': 
+                return (<ChatScreen />);
+            case 'profile':
+                // Nota: ProfileScreen también necesita las correcciones de sintaxis anteriores
+                return (<ProfileScreen user={user} onLogout={onLogout} />); 
+            default:
+                return (<HomeScreen user={user} />); 
+        }
+    };
     
-  return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <header className="sticky top-0 bg-white shadow-sm p-4 border-b border-gray-100 z-10 max-w-xl mx-auto">
-        <WorklyLogo />
-      </header>
-        
-      <main className="max-w-xl mx-auto overflow-y-auto" style={{ minHeight: 'calc(100vh - 128px)' }}>
-        {renderContent()}
-      </main>
+    return (
+        <div className="min-h-screen bg-gray-50 pb-20">
+            <header className="sticky top-0 bg-white shadow-sm p-4 border-b border-gray-100 z-10 max-w-xl mx-auto">
+                <WorklyLogo />
+            </header>
+            
+            <main className="max-w-xl mx-auto overflow-y-auto" style={{ minHeight: 'calc(100vh - 128px)' }}>
+                {renderContent()}
+            </main>
 
-      <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
-      
-      <FloatingAssistantButton onAssistantClick={handleAssistantClick} />
-      
-      <AssistantChatModal 
-        isOpen={isChatOpen} 
-        onClose={() => setIsChatOpen(false)} 
-        userName={user.name} 
-      />
-      
-    </div>
-  );
+            <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+            
+            <FloatingAssistantButton onAssistantClick={handleAssistantClick} />
+            
+            <AssistantChatModal 
+                isOpen={isChatOpen} 
+                onClose={() => setIsChatOpen(false)} 
+                // CORRECCIÓN CLAVE: Usar encadenamiento opcional para evitar crasheo
+                userName={user?.name || 'Invitado'} 
+            />
+            
+        </div>
+    );
 };
 
 export default MainAppScreen;
