@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-// Asegúrate de que estas rutas a los componentes y pantallas sean correctas
 import BottomNavBar from './components/BottomNavBar';
 import WorklyLogo from './components/WorklyLogo';
+// --- NUEVA IMPORTACIÓN ---
+import FloatingAssistantButton from './components/FloatingAssistantButton'; 
+// ------------------------
 import HomeScreen from './screens/HomeScreen';
 import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
@@ -10,14 +12,18 @@ import ProfileScreen from './screens/ProfileScreen';
 const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
     
+  const handleAssistantClick = () => {
+    alert("Asistente Virtual Abierto! (Aquí iría el modal de chat)");
+  };
+    
   const renderContent = () => {
+    // ... (código switch case igual)
     switch (activeTab) {
       case 'home':
         return (<HomeScreen user={user} />); 
       case 'jobs':
         return (<JobsScreen />); 
       case 'courses':
-        // Nota: Asume que CourseDetailScreen.js aún no existe o no se usa aquí.
         return (<CoursesScreen />); 
       case 'profile':
         return (<ProfileScreen user={user} onLogout={onLogout} />); 
@@ -36,8 +42,11 @@ const MainAppScreen = ({ user, onLogout }) => {
         {renderContent()}
       </main>
 
-      {/* Nota: BottomNavBar está en 'components' */}
       <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+      
+      {/* --- NUEVO BOTÓN FLOTANTE --- */}
+      <FloatingAssistantButton onClick={handleAssistantClick} />
+      {/* ---------------------------- */}
     </div>
   );
 };
