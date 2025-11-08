@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, LogIn } from 'lucide-react'; 
 import PrimaryButton from '../components/PrimaryButton'; 
+
 // Asegúrate de que tu logo esté en public/ con este nombre.
 
 const LoginScreen = ({ onLogin }) => { 
@@ -10,6 +11,18 @@ const LoginScreen = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(''); 
     
+  // --- FUNCIONES FALTANTES AÑADIDAS PARA RESOLVER 'no-undef' ---
+  const handleForgotPassword = () => {
+    console.log("Acción: Olvidé mi contraseña");
+    // Lógica real: aquí pondrías la navegación o el modal de recuperación
+  };
+
+  const handleRegister = () => {
+    console.log("Acción: Registrarse");
+    // Lógica real: aquí pondrías la navegación a la página de registro
+  };
+  // ------------------------------------------------------------
+
   const handleLogin = (e) => {
     e.preventDefault();
     setError('');
@@ -97,7 +110,7 @@ const LoginScreen = ({ onLogin }) => {
           </PrimaryButton>
           
           <div className="text-center text-sm mt-4 space-y-2">
-           {/* CORRECCIÓN: Usamos <button> en lugar de <a> con href="#" */}
+            {/* CORRECCIÓN para 'jsx-a11y/anchor-is-valid' */}
             <button 
                 type="button" 
                 onClick={handleForgotPassword}
@@ -107,7 +120,7 @@ const LoginScreen = ({ onLogin }) => {
             </button>
             <p className="text-gray-500">
                 ¿No tienes cuenta? 
-                {/* CORRECCIÓN: Usamos <span> con atributos de accesibilidad para simular un enlace interactivo */}
+                {/* CORRECCIÓN para 'jsx-a11y/anchor-is-valid' */}
                 <span 
                     onClick={handleRegister}
                     className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition cursor-pointer ml-1 focus:outline-none focus:ring-2 focus:ring-[#F39C12]"
