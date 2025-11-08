@@ -5,7 +5,7 @@ const AssistantChatModal = ({ isOpen, onClose, userName }) => {
   
   if (!isOpen) return null;
   
-  const initialMessage = `Hola, ${userName}. Soy Josue. ¿Tienes alguna consulta o duda? ¡Estoy aquí para ayudarte!😁`;
+  const initialMessage = `Hola, ${userName}. Soy Josué. ¿Tienes alguna consulta o duda? ¡Estoy aquí para ayudarte!😁`;
   
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
