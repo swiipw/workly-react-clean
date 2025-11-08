@@ -9,8 +9,6 @@ export const colors = {
 
 // --- Lista de Datos de Cursos ---
 export const courseData = [
-    { id: 1, title: "Introducción a Python y Data Science", description: "Aprende las bases de programación y análisis de datos. Ideal para principiantes.", color: "bg-workly-secondary", instructor: "Dr. Elena García", duration: "4 semanas", level: "Básico", topics: ["Variables", "Estructuras de Control", "Pandas", "Visualización"] },
-    { id: 2, title: "Fundamentos de Diseño UX/UI", description: "Domina el arte de crear experiencias de usuario intuitivas y atractivas.", color: "bg-workly-accent", instructor: "Ing. Marco Ríos", duration: "6 semanas", level: "Intermedio", topics: ["Investigación", "Figma", "Interacción", "Usabilidad"] },
-    { id: 3, title: "Marketing Digital para Freelancers", description: "Estrategias probadas para conseguir clientes y aumentar tu marca personal.", color: "bg-workly-orange", instructor: "Lic. Sofia Herrera", duration: "3 semanas", level: "Avanzado", topics: ["SEO", "Contenido", "Redes Sociales", "Conversión"] },
-    { id: 4, title: "Desarrollo de Apps Móviles con React Native", description: "Crea aplicaciones nativas para iOS y Android con un solo código base.", color: "bg-workly-primary", instructor: "Ing. Pedro López", duration: "8 semanas", level: "Intermedio", topics: ["Componentes", "Navegación", "Hooks", "APIs Nativas"] },
+    { id: 1, title: "Introducción a Python y Data Science", description: "Aprende las bases de programación y análisis de datos. Ideal para principiantes.", color: "bg-workly-secondary", instructor: "Dr. Elena García", duration: "4 semanas", level: "Básico", topics: ["Variables"] },
+    { id: 2, title: "Fundamentos de Diseño UX/UI", description: "Domina el arte de crear experiencias de usuario intuitivas y atractivas.", color: "bg-workly-accent", instructor: "Ing. Marco Ríos", duration: "6 semanas", level: "Intermedio", topics: ["Investigación"] },
 ];
