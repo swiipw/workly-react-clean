@@ -14,7 +14,7 @@ const FloatingAssistantButton = ({ onAssistantClick }) => {
     if (showWelcome) {
       const timer = setTimeout(() => {
         setShowWelcome(false);
-      }, 5000); // 5000 milisegundos = 5 segundos
+      }, 3000); // 3000 milisegundos = 3 segundos
       
       // Función de limpieza: se ejecuta si el componente se desmonta
       return () => clearTimeout(timer);
