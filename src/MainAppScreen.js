@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// Asegúrate de que estas rutas a los componentes y pantallas sean correctas
 import BottomNavBar from './components/BottomNavBar';
 import WorklyLogo from './components/WorklyLogo';
 import HomeScreen from './screens/HomeScreen';
@@ -16,7 +17,8 @@ const MainAppScreen = ({ user, onLogout }) => {
       case 'jobs':
         return (<JobsScreen />); 
       case 'courses':
-        return (<CoursesScreen onSelectCourse={user} />); 
+        // Nota: Asume que CourseDetailScreen.js aún no existe o no se usa aquí.
+        return (<CoursesScreen />); 
       case 'profile':
         return (<ProfileScreen user={user} onLogout={onLogout} />); 
       default:
@@ -34,6 +36,7 @@ const MainAppScreen = ({ user, onLogout }) => {
         {renderContent()}
       </main>
 
+      {/* Nota: BottomNavBar está en 'components' */}
       <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
