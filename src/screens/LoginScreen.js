@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Lock, LogIn } from 'lucide-react'; 
 import PrimaryButton from '../components/PrimaryButton'; 
-// Ya no necesitamos WorklyLogo.js aquí si usamos la imagen
-// import WorklyLogo from '../components/WorklyLogo'; 
 
 const LoginScreen = ({ onLogin }) => { 
   const [email, setEmail] = useState('nombre@workly.com'); 
@@ -24,6 +22,17 @@ const LoginScreen = ({ onLogin }) => {
             setError('Credenciales incorrectas. Usa nombre@workly.com y 123456.');
         }
     }, 1000);
+  };
+    
+  // Handlers dummy para las nuevas acciones de botón
+  const handleForgotPassword = () => {
+    console.log("Acción: Olvidé mi contraseña");
+    // Aquí iría la lógica real
+  };
+
+  const handleRegister = () => {
+    console.log("Acción: Registrarse");
+    // Aquí iría la lógica real
   };
     
   return (
@@ -89,8 +98,27 @@ const LoginScreen = ({ onLogin }) => {
           </PrimaryButton>
           
           <div className="text-center text-sm mt-4 space-y-2">
-            <a href="#" className="text-[#1ABC9C] hover:text-[#17202A] block transition">¿Olvidaste tu contraseña?</a>
-            <p className="text-gray-500">¿No tienes cuenta? <a href="#" className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition">Regístrate</a></p>
+            {/* CORRECCIÓN: Usamos <button> en lugar de <a> con href="#" */}
+            <button 
+                type="button" 
+                onClick={handleForgotPassword}
+                className="text-[#1ABC9C] hover:text-[#17202A] block transition font-medium focus:outline-none focus:ring-2 focus:ring-[#1ABC9C]"
+            >
+                ¿Olvidaste tu contraseña?
+            </button>
+            <p className="text-gray-500">
+                ¿No tienes cuenta? 
+                {/* CORRECCIÓN: Usamos <span> con atributos de accesibilidad para simular un enlace interactivo */}
+                <span 
+                    onClick={handleRegister}
+                    className="text-[#F39C12] hover:text-[#E67E22] font-semibold transition cursor-pointer ml-1 focus:outline-none focus:ring-2 focus:ring-[#F39C12]"
+                    role="link" 
+                    tabIndex="0" 
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleRegister(); }} 
+                >
+                    Regístrate
+                </span>
+            </p>
           </div>
 
         </form>
