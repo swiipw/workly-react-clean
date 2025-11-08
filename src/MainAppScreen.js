@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// IMPORTACIONES: Asegura la ruta correcta de los componentes
 import BottomNavBar from './components/BottomNavBar';
 import WorklyLogo from './components/WorklyLogo';
 import HomeScreen from './screens/HomeScreen';
@@ -7,7 +6,6 @@ import JobsScreen from './screens/JobsScreen';
 import CoursesScreen from './screens/CoursesScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
-// --- Pantalla 2: Aplicación Principal (MainAppScreen) ---
 const MainAppScreen = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
     
